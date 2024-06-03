@@ -5,7 +5,8 @@
         static void Main(string[] args)
         {
             string number = GetNumber("Please enter a multi-digit number");
-            Console.WriteLine(DuplicateNumbers(number));
+            int[] ints = GetIntArray(number);
+            Console.WriteLine(DuplicateNumbers(ints));
             
         }
 
@@ -20,24 +21,37 @@
             return userInput;
         }
 
-        static bool DuplicateNumbers(string num)
+        static int[] GetIntArray(string num)
         {
-            //The first loop will iterate from the 0 index to the n-1 index, which is the same thing as num.Length - 1.
-            for (int i = 0; i < num.Length - 1; i++)
+            int[] ints = new int[num.Length];
+
+            //This for loop converts the string "num" to an integer array.
+            for (int i = 0; i < num.Length; i++)
             {
-                //The inner loop will iterate from whatever index i is through the rest of the string array.
-                for (int j = i + 1; j < num.Length; j++)
+                ints[i] = num[i];
+            }
+            return ints;
+        }
+
+        static bool DuplicateNumbers(int[] nums)
+        {
+            
+            Dictionary<int, int> result = new Dictionary<int, int>();
+            
+            //This foreach loop cycles through the integer array and checks to see if the integer from the array is in the dictionary.
+            //If so, it returns the boolean value "true" to the Main() method. If not, it adds the value from the array to the dictionary.
+            foreach (int num in nums)
+            {
+                if (result.ContainsKey(num))
                 {
-                    //If the value in the string array at the index j is pointing to and the value in the string array that i is pointing to match, then return true.
-                    //The keywork return ends both loops. The thread of execution then goes back to the Main() method.
-                    if (num[j] == num[i])
-                    {
-                        return true;
-                    }
+                    return true;
+                }
+                else
+                {
+                    result[num] = 1;
                 }
             }
-            //If the values at the indexes that i and j are pointing too never match, then return false.
-            return false;
+             return false;
         }
     }
 }
